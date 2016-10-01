@@ -1,0 +1,179 @@
+﻿@using BooksCatalogeMVC.CustomHtlmHelpers;
+@model IEnumerable<DataAccessLayer.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<h2>Books</h2>
+@if(User.Identity.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Add Book","Create")
+    </p>
+}
+    <div class="row">
+        <div>
+            <div class="container">
+                <div class="well well-sm">
+                    <div class="btn-group">
+                    @using (Html.BeginForm("Index", "books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        string srt = ViewBag.sort;
+                        @Html.Hidden("SortDown", srt)
+                        <div>
+                            <input type="text" id="SearchText" name="SearchText" style="display:inline-block" class="search form-control " placeholder="Search Books">
+                            <button type="submit" class="btn btn-default" style="display:inline-block"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    }
+                    </div>
+                    <div class="drop">
+                        @using (Html.BeginForm("Index", "books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            string srch = ViewBag.search;
+                            @Html.Hidden("SearchText", srch)
+                            if (ViewBag.sort == "Tittle")
+                            {
+                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
+                                    <option>Not Sorted</option>
+                                    <option selected>Tittle</option>
+                                    <option>Author</option>
+                                    <option>Price</option>
+                                    <option>Date</option>
+                                </select>
+                            }
+                            else if (ViewBag.sort == "Author")
+                            {
+                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
+                                    <option>Not Sorted</option>
+                                    <option>Tittle</option>
+                                    <option selected>Author</option>
+                                    <option>Price</option>
+                                    <option>Date</option>
+                                </select>
+                            }
+                            else if (ViewBag.sort == "Price")
+                            {
+                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
+                                    <option>Not Sorted</option>
+                                    <option>Tittle</option>
+                                    <option>Author</option>
+                                    <option selected>Price</option>
+                                    <option>Date</option>
+                                </select>
+                            }
+                            else if (ViewBag.sort == "Date")
+                            {
+                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
+                                    <option>Not Sorted</option>
+                                    <option>Tittle</option>
+                                    <option>Author</option>
+                                    <option>Price</option>
+                                    <option selected>Date</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
+                                    <option selected>Not Sorted</option>
+                                    <option>Tittle</option>
+                                    <option>Author</option>
+                                    <option>Price</option>
+                                    <option>Date</option>
+                                </select>
+                            }
+                        }
+                    </div>
+                    <div class="btn-group" style="display:inline-block;margin:5px">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.ActionLink("All Authors", "Index", "Authors", new RouteValueDictionary(), new { @class = "btn btn-default",})  
+                            @Html.ActionLink("All Countries", "Index", "Countries", new RouteValueDictionary(), new { @class = "btn btn-default" })
+                        }
+                    </div>
+
+
+                </div>
+                <div id="books" class="row list-group flex">
+                    @foreach (var item in Model)
+                        {
+                        <div class="item  col-xs-4 col-lg-4 list-group-item">
+                            <div class="thumbnail">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="book-del">
+                                        <a data-modal href="@Url.Action("Delete", new RouteValueDictionary(new { id = item.Id }))">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                            @*<span class="sr-only">Edit</span>*@
+                                        </a>
+                                        <a href="@Url.Action("Edit",new RouteValueDictionary(new { id=item.Id }))">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+                                    </div>
+                                }
+                                <div class="caption">
+                                    @Html.DisplayImage(Url.Content(item.ImagePath))
+                                    <div class="context cont">
+                                        <a data-modal href="@Url.Action("Details",new RouteValueDictionary(new { id=item.Id}))">
+                                            @if (item.Title.Length > 12)
+                                            {
+                                                @String.Concat(item.Title.Substring(0, 12), "...")
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            }
+                                        </a>
+                                        <p class="group inner list-group-item-text Description">
+                                            @if (item.Description != null)
+                                            {
+                                                if (item.Description.Length > 200)
+                                                {
+                                                    @String.Concat(item.Description.Substring(0, 200), "...")
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                }
+                                            }
+                                        </p>
+                                        <div class="row under">
+                                            <div class="col-xs-12 col-md-6">
+                                                <p class="lead">
+                                                    @Html.DisplayFor(modelItem => item.Price)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if(Model.Count()==0)
+                    {
+                        <p class="info"> Sorry but there is no book for your search</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+                    @{
+                        int current = ViewBag.Page;
+                        int size = ViewBag.PageSize;
+                        int total = ViewBag.Count;
+                        string sort = ViewBag.sort;
+                        string search = ViewBag.search;
+                    }
+                    @Html.PagePrev(current, size, total,sort,search)
+                    @Html.PageNext(current, size, total,sort,search)
+
+
+<div id='action' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='Content'></div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,200 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.list-cont{
+    text-align:center !important;
+}
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+.drop{
+    display:inline-block;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.hidden{
+    display:none;
+}
+.inline{
+    display:inline-block;
+}
+.form-custom{
+    display:inline-block;
+}
+.image-grid{
+    height:9.5em;
+    width:6em;
+    display:inline-block;
+    margin-left:17px;
+    margin-bottom:3px;
+}
+.image-list{
+    height:9.5em;
+    width:6em;
+    display:inline-block;
+}
+
+#container {
+   min-height:100%;
+   position:relative;
+}
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#body {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+}
+
+
+.search{
+    width:25em;
+    display:inline-block;
+}
+.input{
+    width:100%;
+}
+.flex{
+    flex-wrap:wrap;
+    display:flex;
+    flex-direction:row;
+}
+
+.item{
+    display:block;
+    margin-bottom:2em;
+}
+
+.book-del{
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    display:none;
+    margin-top:5px;
+    margin-right:2px;
+}
+.thumbnail:hover .book-del{
+    display:block;
+}
+
+#Content:hover .book-del{
+    display:block;
+}
+
+.Listimage{
+    margin:auto,auto;
+}
+
+.glyphicon {
+     margin-right:5px;
+
+}
+.thumbnail
+{
+    margin-bottom: 20px;
+    padding: 0px;
+    height:100%;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.item.list-group-item
+{
+    float: none;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
+{
+    background: #428bca;
+}
+
+.item.list-group-item .list-group-image
+{
+    margin-right: 10px;
+}
+.item.list-group-item .thumbnail
+{
+    margin-bottom: 0px;
+}
+.item.list-group-item .caption
+{
+    width:100%;
+    padding: 9px 9px 9px 9px;
+    display:inline-block;
+    display:flex;
+}
+.item.list-group-item:nth-of-type(odd)
+{
+    background: #eeeeee;
+}
+.context 
+{
+    float:left;
+    padding-left:15px;
+}
+
+.item.list-group-item:before, .item.list-group-item:after
+{
+    display: table;
+    content: " ";
+}
+
+.item.list-group-item img
+{
+    float: left;
+}
+.item.list-group-item:after
+{
+    clear: both;
+}
+.list-group-item-text
+{
+    margin: 0 0 11px;
+}
+
+.flex .item {
+    flex: 1;
+    min-width: 400px;
+    max-width: 700px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.under{
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    margin-top:5px;
+    margin-right:2px;
+}
+
+.info{
+    margin-top:10px;
+    margin-left:25px;
+}

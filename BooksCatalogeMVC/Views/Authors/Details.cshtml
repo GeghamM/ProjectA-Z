@@ -1,0 +1,54 @@
+﻿@using BooksCatalogeMVC.CustomHtlmHelpers
+@model DataAccessLayer.Models.Author
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Author</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayImage(Url.Content(Model.ImagePath))
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if(User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        @Html.ActionLink("Back to List", "Index")
+    }
+</p>

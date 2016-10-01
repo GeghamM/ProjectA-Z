@@ -1,0 +1,78 @@
+﻿@using System.Threading
+@using System.Globalization
+@using BooksCatalogeMVC.CustomHtlmHelpers
+@using DataAccessLayer.Models
+@model DataAccessLayer.Models.Book
+
+@{
+    ViewBag.Title = "Details";
+}
+@{Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR"); }
+<h2>Details</h2>
+
+<div id="ModalDet" class="modal-body">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Author.FullName)
+        </dt>
+
+        <dd>
+            <a href=@Url.Action("Details","Authors", new { id = Model.Author.ID })>@Model.Author.FullName</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IssueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageCount)
+        </dd>
+    </dl>
+</div>
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" }) 
+    }
+</p>
+<br />
