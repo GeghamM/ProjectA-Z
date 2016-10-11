@@ -40,7 +40,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayImage(Url.Content(Model.ImagePath))
+            @if (Model.ImagePath != null)
+            {
+                @Html.DisplayImage(Url.Content(Model.ImagePath))
+            }
         </dd>
 
     </dl>

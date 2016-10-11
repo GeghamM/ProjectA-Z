@@ -20,13 +20,15 @@ namespace DataAccessLayer.Models
         [Required]
         [ForeignKey(nameof(Country))]
         public int IssueCountryID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Price is required")]
         [DisplayFormat(DataFormatString ="{0:n2}")]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "enter decimal value of format $9.99")]
         public decimal Price { get; set; }
         [DisplayName("Issue Date")]
         [DataType("Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? IssueDate { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [DisplayName("Pages count")]
         public int PageCount { get; set; }

@@ -10,7 +10,7 @@ namespace BooksCatalogeMVC.HalperClasses
 {
     public static class ImageHandler
     {
-
+        //Resizeing,Croping and saveing image;
         public static Boolean EditeAndSave(Image image, int targetWidth, int targetHeight, string filePath)
         {
             ImageCodecInfo jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/jpeg").First();

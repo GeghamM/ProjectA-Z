@@ -1,7 +1,9 @@
 ﻿using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace BooksCatalogeMVC.HalperClasses
@@ -34,5 +36,14 @@ namespace BooksCatalogeMVC.HalperClasses
             }
             return books;
         }
+        public static IQueryable<Book> SearchFilter(IQueryable<Book> books,String SearchString)
+        {
+            if(!String.IsNullOrEmpty(SearchString))
+            {
+                books = books.Where(s => s.Title.Contains(SearchString) || s.Author.FullName.Contains(SearchString) || s.Description.Contains(SearchString));
+            }
+            return books;
+        }
+
     }
 }

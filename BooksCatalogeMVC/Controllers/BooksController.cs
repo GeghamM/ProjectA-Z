@@ -10,6 +10,8 @@ using DataAccessLayer.Models;
 using BooksCatalogeMVC.HalperClasses;
 using System.Drawing;
 using System.Collections.Generic;
+using BooksCatalogeMVC.ViewModels;
+using System.Threading.Tasks;
 
 namespace BooksCatalogeMVC.Controllers
 {
@@ -18,14 +20,10 @@ namespace BooksCatalogeMVC.Controllers
         private DataBaseContext db = new DataBaseContext();
         int PageSize = 12;
         // GET: Books
-        public ActionResult Index(string SearchText, string SortDown="Not Sorted",int page=1)
+        public async Task<ActionResult> Index(string SearchText, string SortDown="Not Sorted",int page=1)
         {
             var books = db.Books.Include(b => b.Author).Include(b => b.Country);
-
-            if (!String.IsNullOrEmpty(SearchText))
-            {
-                books = books.Where(s => s.Title.Contains(SearchText) || s.Author.FullName.Contains(SearchText) || s.Description.Contains(SearchText));
-            }
+            books = Service.SearchFilter(books, SearchText);
             foreach (var item in books)
             {
                 item.Price += (decimal)item.Country.Code / 10;
@@ -34,17 +32,18 @@ namespace BooksCatalogeMVC.Controllers
                     item.ImagePath = @"~\Images\404.jpg";
                 }
             }
+            
             books = Service.SortBooksBy(books, SortDown);
-            ViewBag.Count = books.Count();
+            if (books.Count() <= (PageSize * (page - 1)) + 1 || page <= 0)
+            {
+                page = 1;
+            }
+            var total = await books.CountAsync();
             books = books.Skip((page - 1) * PageSize).Take(PageSize);
-            ViewBag.search = SearchText;
-            ViewBag.sort = SortDown;
-            ViewBag.Page = page;
-            ViewBag.PageSize = PageSize;
-            ViewBag.Values = new SelectList(new List<string> { "Not Sorted" ,"Tittle", "Author", "Price", "Date" },SortDown);
-            return View(books.ToList());
+            BookIndexViewModel Books4View = new BookIndexViewModel(books, page, PageSize, total, SortDown, SearchText);
+            return View(Books4View);
         }
-        // GET: Books/Details/5
+        // GET: Books/Details/id
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -61,6 +60,7 @@ namespace BooksCatalogeMVC.Controllers
         }
 
         // GET: Books/Create
+        [Authorize]
         public ActionResult Create()
         {
 
@@ -70,11 +70,10 @@ namespace BooksCatalogeMVC.Controllers
         }
 
         // POST: Books/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount")] Book book, HttpPostedFileBase file,string[] selectedTags)
+        [Authorize]
+        public ActionResult Create([Bind(Include = "Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount")] Book book, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -106,31 +105,30 @@ namespace BooksCatalogeMVC.Controllers
             return View(book);
         }
 
-        // GET: Books/Edit/5
+        // GET: Books/Edit/id
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Oops", "ErrorPageHandler", new { id = 400 });
             }
-            Book book = db.Books
-                .Where(i => i.Id == id)
-                .Single();
+
+            Book book = db.Books.Find(id);
                 
             if (book == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Oops", "ErrorPageHandler", new {id=404 });
             }
             ViewBag.AuthorID = new SelectList(db.Authors, "ID", "FullName", book.AuthorID);
             ViewBag.IssueCountryID = new SelectList(db.Countires, "ID", "Name", book.IssueCountryID);
             return View(book);
         }
 
-        // POST: Books/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Books/Edit/id
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount")] Book book, string[] selectedTags,HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
@@ -153,7 +151,8 @@ namespace BooksCatalogeMVC.Controllers
             return View(book);
         }
 
-        // GET: Books/Delete/5
+        // GET: Books/Delete/id
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -168,7 +167,8 @@ namespace BooksCatalogeMVC.Controllers
             return PartialView(book);
         }
 
-        // POST: Books/Delete/5
+        // POST: Books/Delete/id
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -182,7 +182,8 @@ namespace BooksCatalogeMVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        //For Filling base with books for testing
+        [Authorize]
         public ActionResult Create50()
         {
             for(int i=0;i<50;i++)
@@ -191,7 +192,7 @@ namespace BooksCatalogeMVC.Controllers
                 {
                     Title = "Book No" + i,
                     IssueCountryID = 1,
-                    AuthorID = 2,
+                    AuthorID = 1,
                     PageCount = 15,
                     ImagePath = null,
                     IssueDate=DateTime.Now,
@@ -202,6 +203,8 @@ namespace BooksCatalogeMVC.Controllers
             db.SaveChanges();
             return RedirectToAction("index");
         }
+        //for deleting all Books from db
+        [Authorize]
         public ActionResult Deleteall()
         {
             db.Books.RemoveRange(db.Books);

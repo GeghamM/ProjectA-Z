@@ -1,6 +1,6 @@
 ﻿@model BooksCatalogeMVC.Models.AddPhoneNumberViewModel
 @{
-    ViewBag.Title = "Номер телефона";
+    ViewBag.Title = "Phone number";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -8,7 +8,7 @@
 @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Добавление номера телефона</h4>
+    <h4>Add phone number</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">

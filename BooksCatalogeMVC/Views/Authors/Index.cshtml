@@ -27,7 +27,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayImage(Url.Content(item.ImagePath))
+            @if (item.ImagePath != null)
+            {
+                @Html.DisplayImage(Url.Content(item.ImagePath))
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FullName)

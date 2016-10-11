@@ -39,6 +39,7 @@ namespace BooksCatalogeMVC.Controllers
         }
 
         // GET: Authors/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -49,6 +50,7 @@ namespace BooksCatalogeMVC.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "ID,FullName,BirthDate,Description,Img")] Author author, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
@@ -80,6 +82,7 @@ namespace BooksCatalogeMVC.Controllers
         }
 
         // GET: Authors/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -99,6 +102,7 @@ namespace BooksCatalogeMVC.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ID,FullName,BirthDate,Description,Img")] Author author,HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
@@ -119,6 +123,7 @@ namespace BooksCatalogeMVC.Controllers
         }
 
         // GET: Authors/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -136,6 +141,7 @@ namespace BooksCatalogeMVC.Controllers
         // POST: Authors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Author author = db.Authors.Find(id);

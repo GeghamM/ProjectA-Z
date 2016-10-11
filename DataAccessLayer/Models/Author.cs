@@ -12,7 +12,7 @@ namespace DataAccessLayer.Models
         [Key]
         public int ID { get; set; }
         [Required]
-        [Display(Name="Author Name")]
+        [Display(Name="Author")]
         public String FullName { get; set; }
         [DataType(DataType.Date)]
         [Display(Name ="Birth Day")]

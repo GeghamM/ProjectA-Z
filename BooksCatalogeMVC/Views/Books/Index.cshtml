@@ -1,17 +1,11 @@
 ﻿@using BooksCatalogeMVC.CustomHtlmHelpers;
-@model IEnumerable<DataAccessLayer.Models.Book>
+@model BooksCatalogeMVC.ViewModels.BookIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Books";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<h2>Books</h2>
-@if(User.Identity.IsAuthenticated)
-{
-    <p>
-        @Html.ActionLink("Add Book","Create")
-    </p>
-}
+<div class="main-content">
     <div class="row">
         <div>
             <div class="container">
@@ -20,8 +14,7 @@
                     @using (Html.BeginForm("Index", "books", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
-                        string srt = ViewBag.sort;
-                        @Html.Hidden("SortDown", srt)
+                        @Html.Hidden("SortDown", Model.Sort)
                         <div>
                             <input type="text" id="SearchText" name="SearchText" style="display:inline-block" class="search form-control " placeholder="Search Books">
                             <button type="submit" class="btn btn-default" style="display:inline-block"><span class="glyphicon glyphicon-search"></span></button>
@@ -31,81 +24,31 @@
                     <div class="drop">
                         @using (Html.BeginForm("Index", "books", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
-                            string srch = ViewBag.search;
-                            @Html.Hidden("SearchText", srch)
-                            if (ViewBag.sort == "Tittle")
-                            {
-                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
-                                    <option>Not Sorted</option>
-                                    <option selected>Tittle</option>
-                                    <option>Author</option>
-                                    <option>Price</option>
-                                    <option>Date</option>
-                                </select>
-                            }
-                            else if (ViewBag.sort == "Author")
-                            {
-                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
-                                    <option>Not Sorted</option>
-                                    <option>Tittle</option>
-                                    <option selected>Author</option>
-                                    <option>Price</option>
-                                    <option>Date</option>
-                                </select>
-                            }
-                            else if (ViewBag.sort == "Price")
-                            {
-                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
-                                    <option>Not Sorted</option>
-                                    <option>Tittle</option>
-                                    <option>Author</option>
-                                    <option selected>Price</option>
-                                    <option>Date</option>
-                                </select>
-                            }
-                            else if (ViewBag.sort == "Date")
-                            {
-                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
-                                    <option>Not Sorted</option>
-                                    <option>Tittle</option>
-                                    <option>Author</option>
-                                    <option>Price</option>
-                                    <option selected>Date</option>
-                                </select>
-                            }
-                            else
-                            {
-                                <select class="btn btn-default" id="SortDown" name="SortDown" onchange="this.form.submit();">
-                                    <option selected>Not Sorted</option>
-                                    <option>Tittle</option>
-                                    <option>Author</option>
-                                    <option>Price</option>
-                                    <option>Date</option>
-                                </select>
-                            }
+                            @Html.Hidden("SearchText", Model.Search)
+                            @Html.MyDropDownList("SortDown", Model.SortList,Model.Sort, new {@class="btn btn-default" })
                         }
                     </div>
                     <div class="btn-group" style="display:inline-block;margin:5px">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @Html.ActionLink("All Authors", "Index", "Authors", new RouteValueDictionary(), new { @class = "btn btn-default",})  
-                            @Html.ActionLink("All Countries", "Index", "Countries", new RouteValueDictionary(), new { @class = "btn btn-default" })
+                            @Html.ActionLink("All Authors", "Index", "Authors", new RouteValueDictionary(), new { @class = "btn btn-default marg",})  
+                            @Html.ActionLink("All Countries", "Index", "Countries", new RouteValueDictionary(), new { @class = "btn btn-default marg" })
+                            @Html.ActionLink("Add Book", "Create",new RouteValueDictionary(), new { @class = "btn btn-default marg" })
                         }
                     </div>
 
 
                 </div>
                 <div id="books" class="row list-group flex">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Books)
                         {
-                        <div class="item  col-xs-4 col-lg-4 list-group-item">
+                        <div class="item col-xs-4 col-lg-4 list-group-item">
                             <div class="thumbnail">
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <div class="book-del">
                                         <a data-modal href="@Url.Action("Delete", new RouteValueDictionary(new { id = item.Id }))">
                                             <i class="glyphicon glyphicon-remove"></i>
-                                            @*<span class="sr-only">Edit</span>*@
                                         </a>
                                         <a href="@Url.Action("Edit",new RouteValueDictionary(new { id=item.Id }))">
                                             <i class="glyphicon glyphicon-edit"></i>
@@ -113,10 +56,10 @@
                                     </div>
                                 }
                                 <div class="caption">
-                                    @Html.DisplayImage(Url.Content(item.ImagePath))
+                                    <a data-modal href="@Url.Action("Details", new RouteValueDictionary(new { id = item.Id }))">@Html.DisplayImage(Url.Content(item.ImagePath))</a>
                                     <div class="context cont">
                                         <a data-modal href="@Url.Action("Details",new RouteValueDictionary(new { id=item.Id}))">
-                                            @if (item.Title.Length > 12)
+                                            @if (item.Title.Length > 20)
                                             {
                                                 @String.Concat(item.Title.Substring(0, 12), "...")
                                             }
@@ -141,7 +84,7 @@
                                         <div class="row under">
                                             <div class="col-xs-12 col-md-6">
                                                 <p class="lead">
-                                                    @Html.DisplayFor(modelItem => item.Price)
+                                                    $@Html.DisplayFor(modelItem => item.Price)
                                                 </p>
                                             </div>
                                         </div>
@@ -150,7 +93,7 @@
                             </div>
                         </div>
                     }
-                    @if(Model.Count()==0)
+                    @if(Model.Books.Count()==0)
                     {
                         <p class="info"> Sorry but there is no book for your search</p>
                     }
@@ -158,15 +101,18 @@
             </div>
         </div>
     </div>
-                    @{
-                        int current = ViewBag.Page;
-                        int size = ViewBag.PageSize;
-                        int total = ViewBag.Count;
-                        string sort = ViewBag.sort;
-                        string search = ViewBag.search;
+                    @Html.PagePrev(Model.CurrentPage, Model.PageSize, Model.Total,Model.Sort,Model.Search)
+                    <div style="margin-left:1.5em;display:inline-block"></div>
+                    @using (Html.BeginForm("Index", "books", FormMethod.Post, new { enctype = "multipart/form-data", @class="inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("SearchText", Model.Search)
+                        @Html.Hidden("SortDown", Model.SortList)
+                        <input type="number" min="1" max="@Model.PagesCount" value="@Model.CurrentPage" name="page" class="btn btn-group btn-success " />
+                        <input type="submit" value="Go to page" class="btn btn-group btn-success">
                     }
-                    @Html.PagePrev(current, size, total,sort,search)
-                    @Html.PageNext(current, size, total,sort,search)
+                    <div style="margin-left:1.5em;display:inline-block"></div>
+                    @Html.PageNext(Model.CurrentPage, Model.PageSize, Model.Total, Model.Sort, Model.Search)
 
 
 <div id='action' class='modal fade in'>
@@ -177,3 +123,6 @@
     </div>
 </div>
 
+
+
+</div>
