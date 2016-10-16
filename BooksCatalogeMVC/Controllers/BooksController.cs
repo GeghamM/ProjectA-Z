@@ -188,16 +188,17 @@ namespace BooksCatalogeMVC.Controllers
         {
             for(int i=0;i<50;i++)
             {
+                Random r = new Random();
                 db.Books.Add(new Book
                 {
                     Title = "Book No" + i,
-                    IssueCountryID = 1,
-                    AuthorID = 1,
-                    PageCount = 15,
+                    IssueCountryID = db.Countires.First().ID,
+                    AuthorID = db.Authors.First().ID,
+                    PageCount = r.Next(10, 300),
                     ImagePath = null,
-                    IssueDate=DateTime.Now,
-                    Description= "Personal computer designers and developers typically assume every pixel on the computer screen is 100% addressable. By contrast, broadcast and interactive TV designers and developers account for action- or title-safe areas, assuming there are areas on screen that are not addressable by the application. For Windows Media Center you need not be concerned with action- or title-safe areas because of the following:",
-                    Price=15,
+                    IssueDate = DateTime.Now,
+                    Description = "Personal computer designers and developers typically assume every pixel on the computer screen is 100% addressable. By contrast, broadcast and interactive TV designers and developers account for action- or title-safe areas, assuming there are areas on screen that are not addressable by the application. For Windows Media Center you need not be concerned with action- or title-safe areas because of the following:",
+                    Price = r.Next(2, 50),
                 });
             }
             db.SaveChanges();
