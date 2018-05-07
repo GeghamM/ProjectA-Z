@@ -1,0 +1,100 @@
+﻿@using BooksCatalogeMVC.CustomHtlmHelpers
+@model BooksCatalogeMVC.ViewModels.BookSummaryViewModel
+
+@{
+    ViewBag.Title = "BookSummary";
+}
+
+<h2>BookSummary</h2>
+
+<div>
+    <h4>Book</h4>
+    @if (Model.Book.ImagePath != null)
+    {
+        @Html.DisplayImage(Url.Content(Model.Book.ImagePath))
+    }
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.AuthorID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.AuthorID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.IssueCountryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.IssueCountryID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.IssueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.IssueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.PageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.PageCount)
+        </dd>
+
+    </dl>
+    <h4>Reviews</h4>
+    @if (User.Identity.IsAuthenticated)
+    {
+        using (Html.BeginForm("AddReview", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("BookId", Model.Book.Id)
+            @Html.Hidden("UserId", User.Identity.Name)
+            <input type="text" id="Text" name="Text"  placeholder="Add your review heare"/>
+            <button type="submit" class="btn btn-default" style="display:inline-block">Post Review</button>
+        }
+    }
+    <div>
+        @foreach (var Review in Model.Reviews)
+        {
+            <div class="Review">
+                <label class="review_user_date">@(Review.UserName + " ( " + Review.ReviewDate.ToString() + " )" )</label>
+                <textarea class="Review_Text">@Review.Text</textarea>
+            </div>
+        }
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Book.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

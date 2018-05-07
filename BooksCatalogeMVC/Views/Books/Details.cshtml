@@ -16,19 +16,11 @@
 </div>
 
     <div id="ModalDet" class="modal-body">
-        @if (Model.ImagePath != null)
-        {
-            @Html.DisplayImage(Url.Content(Model.ImagePath))
-        }
 
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Author.FullName)
             </dt>
-            @if (Model.Author.ImagePath != null)
-            {
-                @Html.DisplayImage(Url.Content(Model.Author.ImagePath))
-            }
 
             <dd>
                 <a href=@Url.Action("Details","Authors", new { id = Model.Author.ID })>@Model.Author.FullName</a>
@@ -73,6 +65,9 @@
                 @Html.DisplayFor(model => model.PageCount)
             </dd>
         </dl>
+    </div>
+    <div>
+        @Html.ActionLink("More", "BookSummary", new { id = Model.Id })
     </div>
     <p>
         @if (User.Identity.IsAuthenticated)

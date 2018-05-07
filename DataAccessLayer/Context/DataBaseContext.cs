@@ -15,5 +15,13 @@ namespace DataAccessLayer
         public DbSet<Country> Countires { get; set; }
         public DbSet<Author> Authors { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    Database.SetInitializer<DataBaseContext>(null);
+        //    base.OnModelCreating(modelBuilder);
+        //}
+
     }
 }

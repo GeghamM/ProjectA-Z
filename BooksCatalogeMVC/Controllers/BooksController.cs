@@ -59,6 +59,33 @@ namespace BooksCatalogeMVC.Controllers
             return PartialView(book);
         }
 
+        public ActionResult BookSummary(int id)
+        {
+
+            Book book = db.Books.Find(id);
+            List<Review> reviews = db.Reviews.Where(r => r.BookId == book.Id).ToList();
+            book.Price += (decimal)book.Country.Code / 10;
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            BookSummaryViewModel Model = new BookSummaryViewModel(book, reviews);
+            return View(Model);
+        }
+
+        public ActionResult AddReview(string Text, int BookId, string UserId)
+        {
+            Review Rev = new Review();
+            Rev.BookId = BookId;
+            Rev.AuthorId = null;
+            Rev.Text = Text;
+            Rev.UserName = UserId;
+            Rev.ReviewDate = DateTime.Now;
+            db.Reviews.Add(Rev);
+            db.SaveChanges();
+            return RedirectToAction("BookSummary", new { id = BookId });
+        }
+
         // GET: Books/Create
         [Authorize]
         public ActionResult Create()
@@ -186,7 +213,16 @@ namespace BooksCatalogeMVC.Controllers
         [Authorize]
         public ActionResult Create50()
         {
-            for(int i=0;i<50;i++)
+            if(!db.Authors.Any())
+            {
+                db.Authors.Add(new Author { BirthDate = DateTime.Now, Description = "1", FullName = "Author 1", ImagePath = null, });
+            }
+            if (!db.Countires.Any())
+            {
+                db.Countires.Add(new Country { Code = 1, Name = "Country 1" });
+            }
+            db.SaveChanges();
+            for (int i=0;i<50;i++)
             {
                 Random r = new Random();
                 db.Books.Add(new Book

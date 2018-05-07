@@ -185,6 +185,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BookIndexViewModel.cs" />
+    <Compile Include="ViewModels\BookSummaryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -264,6 +265,7 @@
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Books\BookSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
