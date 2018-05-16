@@ -23,7 +23,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 600px;
 }
 
 .hidden{
@@ -223,4 +223,37 @@ html{
 }
 .push{
     height: 60px;
+}
+
+.Review_input{
+    height: 6em;
+    width: 100% !important;
+}
+
+.Review_section{
+    margin-left:30px;
+}
+
+.Review{
+    margin-top:10px;
+    width:80%;
+    box-shadow:-7px 5px 25px #dddddd;
+    display:inline-block;
+    border-radius: 10px;
+    padding-left:10px;
+}
+
+.space{
+    height:40px;
+}
+
+.Review:hover{
+    box-shadow:-20px 10px 12px #dddddd ;
+}
+
+.Review_Text {
+    resize: none;
+    width: 65%;
+    height: auto;
+    margin-bottom:15px;
 }

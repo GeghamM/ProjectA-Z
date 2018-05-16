@@ -72,6 +72,7 @@
         </dd>
 
     </dl>
+    <div class="Review_section">
     <h4>Reviews</h4>
     @if (User.Identity.IsAuthenticated)
     {
@@ -80,7 +81,7 @@
             @Html.AntiForgeryToken()
             @Html.Hidden("BookId", Model.Book.Id)
             @Html.Hidden("UserId", User.Identity.Name)
-            <input type="text" id="Text" name="Text"  placeholder="Add your review heare"/>
+            <textarea type="text" id="Text" name="Text" class="Review_input" placeholder="Add your review heare"></textarea>
             <button type="submit" class="btn btn-default" style="display:inline-block">Post Review</button>
         }
     }
@@ -89,10 +90,12 @@
         {
             <div class="Review">
                 <label class="review_user_date">@(Review.UserName + " ( " + Review.ReviewDate.ToString() + " )" )</label>
-                <textarea class="Review_Text">@Review.Text</textarea>
+                <div readonly class="Review_Text">@Review.Text</div>
             </div>
         }
+        <div class="space"></div>
     </div>
+    </div> 
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Book.Id }) |
