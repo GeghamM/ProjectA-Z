@@ -304,11 +304,11 @@ html{
     clear:both;
 }
 
-.btn:hover,
-.btn:focus {
-    background-color: #ffffff !important;
-}
-
 .btn_shadow:hover {
     box-shadow: -5px 5px 12px #dddddd;
+}
+
+.book_info dd:hover {
+    text-shadow: -4px 6px 12px #dddddd;
+    transition: 0.2s;
 }

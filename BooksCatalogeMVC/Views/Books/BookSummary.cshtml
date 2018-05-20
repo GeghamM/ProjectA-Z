@@ -27,7 +27,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Book.Title)
+                    @Html.DisplayFor(model => model.Book.Title, new { @class = "text_hover" })
                 </dd>
 
                 <dt>
@@ -35,7 +35,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Book.Author.FullName)
+                    @Html.DisplayFor(model => model.Book.Author.FullName, new { @class = "text_hover" })
                 </dd>
 
                 <dt>
@@ -43,7 +43,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Book.Country.Name)
+                    @Html.DisplayFor(model => model.Book.Country.Name, new { @class = "text_hover" })
                 </dd>
 
                 <dt>
@@ -51,7 +51,7 @@
                 </dt>
 
                 <dd>
-                    $@Html.DisplayFor(model => model.Book.Price)
+                    $@Html.DisplayFor(model => model.Book.Price, new { @class = "text_hover" })
                 </dd>
 
                 <dt>
@@ -59,7 +59,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Book.IssueDate)
+                    @Html.DisplayFor(model => model.Book.IssueDate, new { @class = "text_hover" })
                 </dd>
 
                 <dt>
@@ -67,7 +67,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Book.Description)
+                    @Html.DisplayFor(model => model.Book.Description, "", new { @class = "text_hover" })
                 </dd>
 
                 <dt>
@@ -75,7 +75,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Book.PageCount)
+                    @Html.DisplayFor(model => model.Book.PageCount,"", new { @class = "text_hover" })
                 </dd>
 
             </dl>
@@ -107,6 +107,6 @@
     </div> 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Book.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Book.Id }, new { @class = "btn btn-default btn_shadow" })
+    @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-default btn_shadow" })
 </p>
