@@ -26,7 +26,7 @@ namespace BooksCatalogeMVC.Controllers
             books = Service.SearchFilter(books, SearchText);
             foreach (var item in books)
             {
-                item.Price += (decimal)item.Country.Code / 10;
+                
                 if (item.ImagePath == null)
                 {
                     item.ImagePath = @"~\Images\404.jpg";
@@ -51,7 +51,6 @@ namespace BooksCatalogeMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Book book = db.Books.Find(id);
-            book.Price += (decimal)book.Country.Code / 10;
             if (book == null)
             {
                 return HttpNotFound();
@@ -64,12 +63,12 @@ namespace BooksCatalogeMVC.Controllers
 
             Book book = db.Books.Find(id);
             List<Review> reviews = db.Reviews.Where(r => r.BookId == book.Id).ToList();
-            book.Price += (decimal)book.Country.Code / 10;
             if (book == null)
             {
                 return HttpNotFound();
             }
             BookSummaryViewModel Model = new BookSummaryViewModel(book, reviews);
+            
             return View(Model);
         }
 
@@ -100,7 +99,7 @@ namespace BooksCatalogeMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount")] Book book, HttpPostedFileBase file)
+        public ActionResult Create([Bind(Include = "Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount,Source")] Book book, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -156,7 +155,7 @@ namespace BooksCatalogeMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount")] Book book, string[] selectedTags,HttpPostedFileBase file)
+        public ActionResult Edit([Bind(Include = "Id,Title,AuthorID,IssueCountryID,Price,IssueDate,Description,PageCount,ImagePath,Source")] Book book,HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -166,10 +165,20 @@ namespace BooksCatalogeMVC.Controllers
                     string filename = string.Concat(Guid.NewGuid().ToString(), ".jpg");
                     string path = Server.MapPath(@"~\Images\BookCovers\" + filename);
                     ImageHandler.EditeAndSave(sourceimage, 360, 640, path);
-                    System.IO.File.Delete(Server.MapPath(book.ImagePath));
-                    book.ImagePath = @"~\Images\BookCovers\" + filename;
+                    if (book.ImagePath != null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(book.ImagePath));
+                    }
+                    db.Books.First(b => b.Id == book.Id).ImagePath = @"~\Images\BookCovers\" + filename;
                 }
-                
+                db.Books.First(b => b.Id == book.Id).Title = book.Title;
+                db.Books.First(b => b.Id == book.Id).AuthorID = book.AuthorID;
+                db.Books.First(b => b.Id == book.Id).IssueCountryID = book.IssueCountryID;
+                db.Books.First(b => b.Id == book.Id).Price = book.Price;
+                db.Books.First(b => b.Id == book.Id).IssueDate = book.IssueDate;
+                db.Books.First(b => b.Id == book.Id).Description = book.Description;
+                db.Books.First(b => b.Id == book.Id).PageCount = book.PageCount;
+                db.Books.First(b => b.Id == book.Id).Source = book.Source;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

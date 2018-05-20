@@ -103,7 +103,7 @@ namespace BooksCatalogeMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,FullName,BirthDate,Description,Img")] Author author,HttpPostedFileBase file)
+        public ActionResult Edit([Bind(Include = "ID,FullName,BirthDate,Description,ImagePath")] Author author,HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -113,9 +113,15 @@ namespace BooksCatalogeMVC.Controllers
                     string filename = string.Concat(Guid.NewGuid().ToString(), ".jpg");
                     string path = Server.MapPath(@"~\Images\AuthorImages\" + filename);
                     ImageHandler.EditeAndSave(sourceimage, 360, 640, path);
-                    System.IO.File.Delete(Server.MapPath(author.ImagePath));
-                    author.ImagePath = @"~\Images\AuthorImages\" + filename;
+                    if (author.ImagePath != null)
+                    {
+                        System.IO.File.Delete(Server.MapPath(author.ImagePath));
+                    }
+                    db.Authors.First(a=>a.ID == author.ID).ImagePath = @"~\Images\AuthorImages\" + filename;
                 }
+                db.Authors.First(a => a.ID == author.ID).BirthDate = author.BirthDate;
+                db.Authors.First(a => a.ID == author.ID).Description = author.Description;
+                db.Authors.First(a => a.ID == author.ID).FullName = author.FullName;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

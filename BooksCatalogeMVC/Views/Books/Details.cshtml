@@ -54,7 +54,17 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Description)
+                @if(Model.Description != null)
+                {
+                    if(Model.Description.Length>400)
+                    {
+                        @String.Concat(Model.Description.Substring(0, 400), "...")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.Description)
+                    }
+                }
             </dd>
 
             <dt>
@@ -66,15 +76,15 @@
             </dd>
         </dl>
     </div>
-    <div>
-        @Html.ActionLink("More", "BookSummary", new { id = Model.Id })
+    <div class="inline_buttons">
+        @Html.ActionLink("More", "BookSummary", new { id = Model.Id }, new { @class = "btn btn-default " })
     </div>
-    <p>
+    <div class="inline_buttons">
         @if (User.Identity.IsAuthenticated)
         {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" } )
         }
-    </p>
+    </div>
     <br />
 
 <script>

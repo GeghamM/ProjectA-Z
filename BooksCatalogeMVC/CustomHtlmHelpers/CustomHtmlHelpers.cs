@@ -13,18 +13,23 @@ namespace BooksCatalogeMVC.CustomHtlmHelpers
 {
     public static class CustomHtmlHelpers
     {
-        public static MvcHtmlString DisplayImage(this HtmlHelper helper, String path)
+        public static MvcHtmlString DisplayImage(this HtmlHelper helper, String path,String classes = null)
         {
-            return helper.DisplayImage(path, new object());
+            return helper.DisplayImage(path, new object(), classes);
         }
-        public static MvcHtmlString DisplayImage(this HtmlHelper helper, String path,object HtmlAttributes)
+        public static MvcHtmlString DisplayImage(this HtmlHelper helper, String path, object HtmlAttributes, String classes = null)
         {
             var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(HtmlAttributes) as IDictionary<string, object>;
             TagBuilder tb = new TagBuilder("img");
             tb.MergeAttributes(attributes);
             tb.Attributes.Add("src", path);
             tb.Attributes.Add("alt", "Cover");
-            tb.Attributes.Add("class", "image-grid cover");
+            if (classes != null){
+                tb.Attributes.Add("class", classes);
+            }
+            else {
+                tb.Attributes.Add("class", "image-grid cover");
+            }
             return new MvcHtmlString(tb.ToString(TagRenderMode.SelfClosing));
         }
 

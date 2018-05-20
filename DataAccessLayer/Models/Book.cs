@@ -30,6 +30,8 @@ namespace DataAccessLayer.Models
         public DateTime? IssueDate { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        [DisplayName("Source")]
+        public string Source { get; set; }
         [DisplayName("Pages count")]
         public int PageCount { get; set; }
         [Display(Name ="Cover Image")]

@@ -14,9 +14,9 @@ namespace DataAccessLayer.Models
         [Required]
         [Display(Name="Author")]
         public String FullName { get; set; }
-        [DataType(DataType.Date)]
         [Display(Name ="Birth Day")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType("Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? BirthDate { get; set; }
         public string Description { set; get; }
         [Display(Name ="Image")]

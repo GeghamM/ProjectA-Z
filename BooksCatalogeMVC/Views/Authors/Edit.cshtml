@@ -47,7 +47,10 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control hidden" } })
                 <label class="btn btn-default btn-file">
-                    @Html.DisplayImage(Url.Content(Model.ImagePath))
+                    @if (Model.ImagePath != null)
+                    {
+                        @Html.DisplayImage(Url.Content(Model.ImagePath), "image-grid cover")
+                    }
                     <input type="file" id="file" name="file">
                 </label>
                 @if (ViewBag.ImageError != null)

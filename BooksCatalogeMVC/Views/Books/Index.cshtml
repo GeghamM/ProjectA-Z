@@ -56,7 +56,7 @@
                                     </div>
                                 }
                                 <div class="caption">
-                                    <a data-modal href="@Url.Action("Details", new RouteValueDictionary(new { id = item.Id }))">@Html.DisplayImage(Url.Content(item.ImagePath))</a>
+                                    <a data-modal href="@Url.Action("Details", new RouteValueDictionary(new { id = item.Id }))">@Html.DisplayImage(Url.Content(item.ImagePath), "image-grid cover")</a>
                                     <div class="context cont">
                                         <a data-modal href="@Url.Action("Details",new RouteValueDictionary(new { id=item.Id}))">
                                             @if (item.Title.Length > 20)

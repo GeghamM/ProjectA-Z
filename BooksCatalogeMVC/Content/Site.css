@@ -175,7 +175,7 @@ body {
     flex: 1;
     min-width: 400px;
     max-width: 700px;
-    height: 200px;
+    height: 190px;
     overflow: hidden;
 }
 
@@ -249,11 +249,66 @@ html{
 
 .Review:hover{
     box-shadow:-20px 10px 12px #dddddd ;
+    margin-left:7px;
+    transition: 0.2s;
 }
 
 .Review_Text {
     resize: none;
-    width: 65%;
+    width: 100%;
     height: auto;
     margin-bottom:15px;
+}
+
+.btn-default:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
+}
+
+.book_image, .book_info {
+    float:left;
+}
+
+.book_image{
+    max-width:29%;
+}
+
+.book_info{
+    max-width:70%;
+}
+
+.Image_Summary {
+    margin-top: 15px;
+    max-height: 25em;
+    max-width: 35em;
+}
+
+.book_details:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.inline_buttons{
+    display: inline-block;
+    margin: 2px;
+    margin-bottom: 5px;
+}
+
+.Source_link {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+}
+.Source_link::after{
+    clear:both;
+}
+
+.btn:hover,
+.btn:focus {
+    background-color: #ffffff !important;
+}
+
+.btn_shadow:hover {
+    box-shadow: -5px 5px 12px #dddddd;
 }

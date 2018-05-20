@@ -5,73 +5,82 @@
     ViewBag.Title = "BookSummary";
 }
 
-<h2>BookSummary</h2>
+<h2 style="display:inline-block;">BookSummary</h2>
+<div class="Source_link">
+    <a class="btn btn-default btn_shadow" href="@Model.Book.Source" target="_blank">Book's Source</a>
+</div>
 
 <div>
-    <h4>Book</h4>
-    @if (Model.Book.ImagePath != null)
-    {
-        @Html.DisplayImage(Url.Content(Model.Book.ImagePath))
-    }
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.Title)
-        </dt>
+    <div class="book_details">
+        <h4>Book</h4>
+        <div class="book_image">
+        @if (Model.Book.ImagePath != null)
+        {
+            @Html.DisplayImage(Url.Content(Model.Book.ImagePath),"Image_Summary")
+        }
+        <hr />
+        </div>
+        <div class="book_info">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.Title)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.Title)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Book.Title)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.AuthorID)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.Author.FullName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.AuthorID)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Book.Author.FullName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.IssueCountryID)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.Country.Name)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.IssueCountryID)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Book.Country.Name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.Price)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.Price)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.Price)
-        </dd>
+                <dd>
+                    $@Html.DisplayFor(model => model.Book.Price)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.IssueDate)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.IssueDate)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.IssueDate)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Book.IssueDate)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.Description)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.Description)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Book.Description)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.PageCount)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Book.PageCount)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Book.PageCount)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Book.PageCount)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+    </div>
     <div class="Review_section">
     <h4>Reviews</h4>
     @if (User.Identity.IsAuthenticated)
@@ -82,7 +91,7 @@
             @Html.Hidden("BookId", Model.Book.Id)
             @Html.Hidden("UserId", User.Identity.Name)
             <textarea type="text" id="Text" name="Text" class="Review_input" placeholder="Add your review heare"></textarea>
-            <button type="submit" class="btn btn-default" style="display:inline-block">Post Review</button>
+            <button type="submit" class="btn btn-default btn_shadow" style="display:inline-block">Post Review</button>
         }
     }
     <div>

@@ -5,10 +5,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>All Authors</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p style="margin-bottom:5px">
+    @Html.ActionLink("Create New", "Create", new { },new { @class = "btn btn-default btn_shadow" })
 </p>
 <table class="table">
     <tr>
@@ -29,7 +29,7 @@
         <td>
             @if (item.ImagePath != null)
             {
-                @Html.DisplayImage(Url.Content(item.ImagePath))
+                @Html.DisplayImage(Url.Content(item.ImagePath), "image-grid cover")
             }
         </td>
         <td>
@@ -39,9 +39,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID, }, new { @class = "btn btn-default btn_shadow" })
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-default btn_shadow" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-default btn_shadow" })
         </td>
     </tr>
 }
